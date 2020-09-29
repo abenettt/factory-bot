@@ -53,4 +53,32 @@ final class ReferenceTest extends Unit\AbstractTestCase
 
         self::assertInstanceOf($className, $resolved);
     }
+
+    public function testResolvesWithFieldOverrides(): void
+    {
+        $className = Entity\User::class;
+
+        $faker = self::faker();
+
+        $fixtureFactory = new FixtureFactory(
+            self::entityManager(),
+            $faker
+        );
+
+        $fixtureFactory->define($className, [
+            'login' => 'abc',
+        ]);
+
+        $fieldDefinition = new Reference($className, [
+            'login' => 'def',
+        ]);
+
+        $resolved = $fieldDefinition->resolve(
+            $faker,
+            $fixtureFactory
+        );
+
+        self::assertInstanceOf($className, $resolved);
+        self::assertSame('def', $resolved->login());
+    }
 }

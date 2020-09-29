@@ -86,6 +86,16 @@ parameters:
 			path: src/FieldDefinition.php
 
 		-
+			message: "#^Constructor in Ergebnis\\\\FactoryBot\\\\FieldDefinition\\\\Reference has parameter \\$fieldDefinitionOverrides with default value\\.$#"
+			count: 1
+			path: src/FieldDefinition/Reference.php
+
+		-
+			message: "#^Constructor in Ergebnis\\\\FactoryBot\\\\FieldDefinition\\\\References has parameter \\$fieldDefinitionOverrides with default value\\.$#"
+			count: 1
+			path: src/FieldDefinition/References.php
+
+		-
 			message: "#^Method Ergebnis\\\\FactoryBot\\\\FixtureFactory\\:\\:define\\(\\) has parameter \\$afterCreate with a nullable type declaration\\.$#"
 			count: 1
 			path: src/FixtureFactory.php
@@ -337,12 +347,12 @@ parameters:
 
 		-
 			message: "#^Call to static method PHPUnit\\\\Framework\\\\Assert\\:\\:assertInstanceOf\\(\\) with 'Example\\\\\\\\Entity\\\\\\\\User' and Example\\\\Entity\\\\User will always evaluate to true\\.$#"
-			count: 1
+			count: 2
 			path: test/Unit/FieldDefinition/ReferenceTest.php
 
 		-
 			message: "#^Call to static method PHPUnit\\\\Framework\\\\Assert\\:\\:assertIsArray\\(\\) with array\\<int, Example\\\\Entity\\\\User\\> will always evaluate to true\\.$#"
-			count: 1
+			count: 2
 			path: test/Unit/FieldDefinition/ReferencesTest.php
 
 		-

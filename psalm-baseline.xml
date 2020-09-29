@@ -217,12 +217,14 @@
     </UnusedClosureParam>
   </file>
   <file src="test/Unit/FieldDefinition/ReferenceTest.php">
-    <RedundantConditionGivenDocblockType occurrences="1">
+    <RedundantConditionGivenDocblockType occurrences="2">
+      <code>assertInstanceOf</code>
       <code>assertInstanceOf</code>
     </RedundantConditionGivenDocblockType>
   </file>
   <file src="test/Unit/FieldDefinition/ReferencesTest.php">
-    <RedundantCondition occurrences="1">
+    <RedundantCondition occurrences="2">
+      <code>assertIsArray</code>
       <code>assertIsArray</code>
     </RedundantCondition>
   </file>

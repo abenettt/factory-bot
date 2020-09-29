@@ -65,4 +65,34 @@ final class ReferencesTest extends Unit\AbstractTestCase
         self::assertCount($value, $resolved);
         self::assertContainsOnly($className, $resolved);
     }
+
+    public function testResolvesWithFieldOverrides(): void
+    {
+        $className = Entity\User::class;
+
+        $faker = self::faker();
+
+        $fixtureFactory = new FixtureFactory(
+            self::entityManager(),
+            $faker
+        );
+
+        $fixtureFactory->define($className, [
+            'login' => 'abc',
+        ]);
+
+        $fieldDefinition = new References($className, Count::exact(3), [
+            'login' => 'def',
+        ]);
+
+        $resolved = $fieldDefinition->resolve(
+            $faker,
+            $fixtureFactory
+        );
+
+        self::assertIsArray($resolved);
+        self::assertCount(3, $resolved);
+        self::assertContainsOnly($className, $resolved);
+        self::assertSame('def', $resolved[0]->login());
+    }
 }

@@ -41,17 +41,24 @@ final class References implements Resolvable
     private $count;
 
     /**
+     * @var array<string, \Closure|mixed|Resolvable>
+     */
+    private $fieldDefinitionOverrides = [];
+
+    /**
      * @phpstan-param class-string<T> $className
      *
      * @psalm-param class-string<T> $className
      *
-     * @param string $className
-     * @param Count  $count
+     * @param string                                   $className
+     * @param Count                                    $count
+     * @param array<string, \Closure|mixed|Resolvable> $fieldDefinitionOverrides
      */
-    public function __construct(string $className, Count $count)
+    public function __construct(string $className, Count $count, array $fieldDefinitionOverrides = [])
     {
         $this->className = $className;
         $this->count = $count;
+        $this->fieldDefinitionOverrides = $fieldDefinitionOverrides;
     }
 
     /**
@@ -68,7 +75,8 @@ final class References implements Resolvable
     {
         return $fixtureFactory->createMany(
             $this->className,
-            $this->count
+            $this->count,
+            $this->fieldDefinitionOverrides
         );
     }
 }
