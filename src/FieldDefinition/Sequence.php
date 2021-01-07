@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * Copyright (c) 2020 Andreas Möller
+ * Copyright (c) 2020-2021 Andreas Möller
  *
  * For the full copyright and license information, please view
  * the LICENSE.md file that was distributed with this source code.
@@ -33,9 +33,6 @@ final class Sequence implements Resolvable
     private $sequentialNumber;
 
     /**
-     * @param string $value
-     * @param int    $initialNumber
-     *
      * @throws Exception\InvalidSequence
      */
     public function __construct(string $value, int $initialNumber)

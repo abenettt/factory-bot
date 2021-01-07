@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * Copyright (c) 2020 Andreas Möller
+ * Copyright (c) 2020-2021 Andreas Möller
  *
  * For the full copyright and license information, please view
  * the LICENSE.md file that was distributed with this source code.
@@ -143,8 +143,6 @@ final class WithOptionalStrategyTest extends Unit\AbstractTestCase
 
     /**
      * @dataProvider \Ergebnis\FactoryBot\Test\DataProvider\IntProvider::greaterThanOrEqualToZero()
-     *
-     * @param int $value
      */
     public function testResolveCountResolvesCountWithFakerWhenCountIsExact(int $value): void
     {
@@ -162,8 +160,6 @@ final class WithOptionalStrategyTest extends Unit\AbstractTestCase
 
     /**
      * @dataProvider \Ergebnis\FactoryBot\Test\DataProvider\IntProvider::greaterThanOrEqualToZero()
-     *
-     * @param int $minimum
      */
     public function testResolveCountResolvesCountWithFakerWhenCountIsBetweenAndFakerReturnsMinimum(int $minimum): void
     {
@@ -189,8 +185,6 @@ final class WithOptionalStrategyTest extends Unit\AbstractTestCase
 
     /**
      * @dataProvider \Ergebnis\FactoryBot\Test\DataProvider\IntProvider::greaterThanZero()
-     *
-     * @param int $maximum
      */
     public function testResolveCountResolvesCountWithFakerWhenCountIsBetweenAndFakerReturnsMaximum(int $maximum): void
     {

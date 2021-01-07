@@ -9,9 +9,6 @@ on: # yamllint disable-line rule:truthy
       - "main"
 
 env:
-  ERGEBNIS_BOT_NAME: "ergebnis-bot"
-  MIN_COVERED_MSI: 99
-  MIN_MSI: 99
   PHP_EXTENSIONS: "mbstring"
 
 jobs:
@@ -23,24 +20,24 @@ jobs:
     strategy:
       matrix:
         php-version:
-          - "7.2"
+          - "7.3"
 
         dependencies:
           - "locked"
 
     steps:
       - name: "Checkout"
-        uses: "actions/checkout@v2.3.3"
+        uses: "actions/checkout@v2.3.4"
 
       - name: "Lint YAML files"
-        uses: "ibiqlik/action-yamllint@v1.0.0"
+        uses: "ibiqlik/action-yamllint@v3"
         with:
           config_file: ".yamllint.yaml"
           file_or_dir: "."
           strict: true
 
       - name: "Install PHP with extensions"
-        uses: "shivammathur/setup-php@2.5.0"
+        uses: "shivammathur/setup-php@2.9.0"
         with:
           coverage: "none"
           extensions: "${{ env.PHP_EXTENSIONS }}"
@@ -53,7 +50,7 @@ jobs:
         uses: "./.github/actions/composer/composer/determine-cache-directory"
 
       - name: "Cache dependencies installed with composer"
-        uses: "actions/cache@v2.1.1"
+        uses: "actions/cache@v2.1.3"
         with:
           path: "${{ env.COMPOSER_CACHE_DIR }}"
           key: "php-${{ matrix.php-version }}-composer-${{ matrix.dependencies }}-${{ hashFiles('composer.lock') }}"
@@ -71,7 +68,7 @@ jobs:
         run: "mkdir -p .build/php-cs-fixer"
 
       - name: "Cache cache directory for friendsofphp/php-cs-fixer"
-        uses: "actions/cache@v2.1.1"
+        uses: "actions/cache@v2.1.3"
         with:
           path: ".build/php-cs-fixer"
           key: "php-${{ matrix.php-version }}-php-cs-fixer-${{ github.sha }}"
@@ -91,17 +88,17 @@ jobs:
     strategy:
       matrix:
         php-version:
-          - "7.4"
+          - "7.3"
 
         dependencies:
           - "locked"
 
     steps:
       - name: "Checkout"
-        uses: "actions/checkout@v2.3.3"
+        uses: "actions/checkout@v2.3.4"
 
       - name: "Install PHP with extensions"
-        uses: "shivammathur/setup-php@2.5.0"
+        uses: "shivammathur/setup-php@2.9.0"
         with:
           coverage: "none"
           extensions: "${{ env.PHP_EXTENSIONS }}"
@@ -111,7 +108,7 @@ jobs:
         uses: "./.github/actions/composer/composer/determine-cache-directory"
 
       - name: "Cache dependencies installed with composer"
-        uses: "actions/cache@v2.1.1"
+        uses: "actions/cache@v2.1.3"
         with:
           path: "${{ env.COMPOSER_CACHE_DIR }}"
           key: "php-${{ matrix.php-version }}-composer-${{ matrix.dependencies }}-${{ hashFiles('composer.lock') }}"
@@ -123,7 +120,7 @@ jobs:
           dependencies: "${{ matrix.dependencies }}"
 
       - name: "Run maglnet/composer-require-checker"
-        run: "tools/composer-require-checker check --config-file=$(pwd)/composer-require-checker.json"
+        run: ".phive/composer-require-checker check --config-file=$(pwd)/composer-require-checker.json"
 
   static-code-analysis:
     name: "Static Code Analysis"
@@ -133,17 +130,17 @@ jobs:
     strategy:
       matrix:
         php-version:
-          - "7.4"
+          - "7.3"
 
         dependencies:
           - "locked"
 
     steps:
       - name: "Checkout"
-        uses: "actions/checkout@v2.3.3"
+        uses: "actions/checkout@v2.3.4"
 
       - name: "Install PHP with extensions"
-        uses: "shivammathur/setup-php@2.5.0"
+        uses: "shivammathur/setup-php@2.9.0"
         with:
           coverage: "none"
           extensions: "${{ env.PHP_EXTENSIONS }}"
@@ -153,7 +150,7 @@ jobs:
         uses: "./.github/actions/composer/composer/determine-cache-directory"
 
       - name: "Cache dependencies installed with composer"
-        uses: "actions/cache@v2.1.1"
+        uses: "actions/cache@v2.1.3"
         with:
           path: "${{ env.COMPOSER_CACHE_DIR }}"
           key: "php-${{ matrix.php-version }}-composer-${{ matrix.dependencies }}-${{ hashFiles('composer.lock') }}"
@@ -168,7 +165,7 @@ jobs:
         run: "mkdir -p .build/phpstan"
 
       - name: "Cache cache directory for phpstan/phpstan"
-        uses: "actions/cache@v2.1.1"
+        uses: "actions/cache@v2.1.3"
         with:
           path: ".build/phpstan"
           key: "php-${{ matrix.php-version }}-phpstan-${{ github.sha }}"
@@ -181,14 +178,14 @@ jobs:
         run: "mkdir -p .build/psalm"
 
       - name: "Cache cache directory for vimeo/psalm"
-        uses: "actions/cache@v2.1.1"
+        uses: "actions/cache@v2.1.3"
         with:
           path: ".build/psalm"
           key: "php-${{ matrix.php-version }}-psalm-${{ github.sha }}"
           restore-keys: "php-${{ matrix.php-version }}-psalm-"
 
       - name: "Run vimeo/psalm"
-        run: "vendor/bin/psalm --config=psalm.xml --diff --diff-methods --shepherd --show-info=false --stats --threads=4"
+        run: "vendor/bin/psalm --config=psalm.xml --diff --shepherd --show-info=false --stats --threads=4"
 
   tests:
     name: "Tests"
@@ -198,9 +195,9 @@ jobs:
     strategy:
       matrix:
         php-version:
-          - "7.2"
           - "7.3"
           - "7.4"
+          - "8.0"
 
         dependencies:
           - "lowest"
@@ -209,10 +206,10 @@ jobs:
 
     steps:
       - name: "Checkout"
-        uses: "actions/checkout@v2.3.3"
+        uses: "actions/checkout@v2.3.4"
 
       - name: "Install PHP with extensions"
-        uses: "shivammathur/setup-php@2.5.0"
+        uses: "shivammathur/setup-php@2.9.0"
         with:
           coverage: "none"
           extensions: "${{ env.PHP_EXTENSIONS }}"
@@ -225,7 +222,7 @@ jobs:
         uses: "./.github/actions/composer/composer/determine-cache-directory"
 
       - name: "Cache dependencies installed with composer"
-        uses: "actions/cache@v2.1.1"
+        uses: "actions/cache@v2.1.3"
         with:
           path: "${{ env.COMPOSER_CACHE_DIR }}"
           key: "php-${{ matrix.php-version }}-composer-${{ matrix.dependencies }}-${{ hashFiles('composer.lock') }}"
@@ -265,17 +262,17 @@ jobs:
     strategy:
       matrix:
         php-version:
-          - "7.4"
+          - "7.3"
 
         dependencies:
           - "locked"
 
     steps:
       - name: "Checkout"
-        uses: "actions/checkout@v2.3.3"
+        uses: "actions/checkout@v2.3.4"
 
       - name: "Install PHP with extensions"
-        uses: "shivammathur/setup-php@2.5.0"
+        uses: "shivammathur/setup-php@2.9.0"
         with:
           coverage: "pcov"
           extensions: "${{ env.PHP_EXTENSIONS }}"
@@ -288,7 +285,7 @@ jobs:
         uses: "./.github/actions/composer/composer/determine-cache-directory"
 
       - name: "Cache dependencies installed with composer"
-        uses: "actions/cache@v2.1.1"
+        uses: "actions/cache@v2.1.3"
         with:
           path: "${{ env.COMPOSER_CACHE_DIR }}"
           key: "php-${{ matrix.php-version }}-composer-${{ matrix.dependencies }}-${{ hashFiles('composer.lock') }}"
@@ -300,7 +297,7 @@ jobs:
           dependencies: "${{ matrix.dependencies }}"
 
       - name: "Collect code coverage with pcov and phpunit/phpunit"
-        run: "vendor/bin/phpunit --configuration=test/phpunit.xml --coverage-clover=.build/logs/clover.xml --testsuite=unit,integration"
+        run: "vendor/bin/phpunit --configuration=test/phpunit.xml --coverage-clover=.build/phpunit/logs/clover.xml --testsuite=unit,integration"
 
       - name: "Send code coverage report to Codecov.io"
         env:
@@ -315,17 +312,17 @@ jobs:
     strategy:
       matrix:
         php-version:
-          - "7.4"
+          - "7.3"
 
         dependencies:
           - "locked"
 
     steps:
       - name: "Checkout"
-        uses: "actions/checkout@v2.3.3"
+        uses: "actions/checkout@v2.3.4"
 
       - name: "Install PHP with extensions"
-        uses: "shivammathur/setup-php@2.5.0"
+        uses: "shivammathur/setup-php@2.9.0"
         with:
           coverage: "pcov"
           extensions: "${{ env.PHP_EXTENSIONS }}"
@@ -335,7 +332,7 @@ jobs:
         uses: "./.github/actions/composer/composer/determine-cache-directory"
 
       - name: "Cache dependencies installed with composer"
-        uses: "actions/cache@v2.1.1"
+        uses: "actions/cache@v2.1.3"
         with:
           path: "${{ env.COMPOSER_CACHE_DIR }}"
           key: "php-${{ matrix.php-version }}-composer-${{ matrix.dependencies }}-${{ hashFiles('composer.lock') }}"
@@ -347,7 +344,7 @@ jobs:
           dependencies: "${{ matrix.dependencies }}"
 
       - name: "Run mutation tests with pcov and infection/infection"
-        run: "vendor/bin/infection --ignore-msi-with-no-mutations --min-covered-msi=${{ env.MIN_COVERED_MSI }} --min-msi=${{ env.MIN_MSI }}"
+        run: "vendor/bin/infection --configuration=infection.json"
 
   merge:
     name: "Merge"
@@ -371,13 +368,12 @@ jobs:
       ) && (
         (github.actor == 'dependabot[bot]' && startsWith(github.event.pull_request.title, 'composer(deps-dev)')) ||
         (github.actor == 'dependabot[bot]' && startsWith(github.event.pull_request.title, 'github-actions(deps)')) ||
-        (github.actor == 'ergebnis-bot' && github.event.pull_request.title == 'Enhancement: Update license year') ||
         (github.actor == 'localheinz' && contains(github.event.pull_request.labels.*.name, 'merge'))
       )
 
     steps:
-      - name: "Request review from @${{ env.ERGEBNIS_BOT_NAME }}"
-        uses: "actions/github-script@v3.0.0"
+      - name: "Request review from @ergebnis-bot"
+        uses: "actions/github-script@v3.1"
         with:
           github-token: "${{ secrets.ERGEBNIS_BOT_TOKEN }}"
           script: |
@@ -385,7 +381,7 @@ jobs:
             const repository = context.repo
 
             const reviewers = [
-              "${{ env.ERGEBNIS_BOT_NAME }}",
+              "ergebnis-bot",
             ]
 
             await github.pulls.requestReviewers({
@@ -395,8 +391,8 @@ jobs:
               reviewers: reviewers,
             })
 
-      - name: "Assign @${{ env.ERGEBNIS_BOT_NAME }}"
-        uses: "actions/github-script@v3.0.0"
+      - name: "Assign @ergebnis-bot"
+        uses: "actions/github-script@v3.1"
         with:
           github-token: "${{ secrets.ERGEBNIS_BOT_TOKEN }}"
           script: |
@@ -404,7 +400,7 @@ jobs:
             const repository = context.repo
 
             const assignees = [
-              "${{ env.ERGEBNIS_BOT_NAME }}",
+              "ergebnis-bot",
             ]
 
             await github.issues.addAssignees({
@@ -415,8 +411,7 @@ jobs:
             })
 
       - name: "Approve pull request"
-        uses: "actions/github-script@v3.0.0"
-        if: "github.actor != '${{ env.ERGEBNIS_BOT_NAME }}'"
+        uses: "actions/github-script@v3.1"
         with:
           github-token: "${{ secrets.ERGEBNIS_BOT_TOKEN }}"
           script: |
@@ -431,7 +426,7 @@ jobs:
             })
 
       - name: "Merge pull request"
-        uses: "actions/github-script@v3.0.0"
+        uses: "actions/github-script@v3.1"
         with:
           github-token: "${{ secrets.ERGEBNIS_BOT_TOKEN }}"
           script: |

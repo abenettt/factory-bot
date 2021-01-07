@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * Copyright (c) 2020 Andreas Möller
+ * Copyright (c) 2020-2021 Andreas Möller
  *
  * For the full copyright and license information, please view
  * the LICENSE.md file that was distributed with this source code.
@@ -26,19 +26,19 @@ $license = License\Type\MIT::markdown(
 
 $license->save();
 
-$config = PhpCsFixer\Config\Factory::fromRuleSet(new PhpCsFixer\Config\RuleSet\Php71($license->header()), [
+$config = PhpCsFixer\Config\Factory::fromRuleSet(new PhpCsFixer\Config\RuleSet\Php73($license->header()), [
     'mb_str_functions' => false,
 ]);
 
 $config->getFinder()
-    ->ignoreDotFiles(false)
-    ->in(__DIR__)
     ->exclude([
         '.build/',
         '.github/',
         '.notes/',
         '/test/Fixture/Definitions/CanNotBeAutoloaded/',
     ])
+    ->ignoreDotFiles(false)
+    ->in(__DIR__)
     ->name('.php_cs');
 
 $config->setCacheFile(__DIR__ . '/.build/php-cs-fixer/.php_cs.cache');

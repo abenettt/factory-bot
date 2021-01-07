@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * Copyright (c) 2020 Andreas Möller
+ * Copyright (c) 2020-2021 Andreas Möller
  *
  * For the full copyright and license information, please view
  * the LICENSE.md file that was distributed with this source code.
@@ -97,8 +97,6 @@ final class FieldDefinitionTest extends AbstractTestCase
 
     /**
      * @dataProvider \Ergebnis\FactoryBot\Test\DataProvider\IntProvider::greaterThanOrEqualToZero()
-     *
-     * @param int $value
      */
     public function testReferencesReturnsReferencesWhenCountIsSpecified(int $value): void
     {
@@ -152,8 +150,6 @@ final class FieldDefinitionTest extends AbstractTestCase
 
     /**
      * @dataProvider \Ergebnis\FactoryBot\Test\DataProvider\IntProvider::greaterThanOrEqualToZero()
-     *
-     * @param int $initialNumber
      */
     public function testSequenceReturnsSequenceWhenValueContainsPlaceholderAndInitialNumberIsSpecified(int $initialNumber): void
     {
@@ -207,8 +203,6 @@ final class FieldDefinitionTest extends AbstractTestCase
 
     /**
      * @dataProvider \Ergebnis\FactoryBot\Test\DataProvider\IntProvider::arbitrary()
-     *
-     * @param int $initialNumber
      */
     public function testOptionalSequenceReturnsOptionalSequenceWhenValueContainsPlaceholderAndInitialNumberIsSpecified(int $initialNumber): void
     {

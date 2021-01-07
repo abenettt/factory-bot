@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * Copyright (c) 2020 Andreas Möller
+ * Copyright (c) 2020-2021 Andreas Möller
  *
  * For the full copyright and license information, please view
  * the LICENSE.md file that was distributed with this source code.
@@ -49,10 +49,6 @@ final class References implements Resolvable
      * @phpstan-param class-string<T> $className
      *
      * @psalm-param class-string<T> $className
-     *
-     * @param string                                   $className
-     * @param Count                                    $count
-     * @param array<string, \Closure|mixed|Resolvable> $fieldDefinitionOverrides
      */
     public function __construct(string $className, Count $count, array $fieldDefinitionOverrides = [])
     {
@@ -65,9 +61,6 @@ final class References implements Resolvable
      * @phpstan-return array<int, T>
      *
      * @psalm-return list<T>
-     *
-     * @param Generator      $faker
-     * @param FixtureFactory $fixtureFactory
      *
      * @return array<int, object>
      */

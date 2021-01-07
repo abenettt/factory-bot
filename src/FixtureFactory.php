@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * Copyright (c) 2020 Andreas Möller
+ * Copyright (c) 2020-2021 Andreas Möller
  *
  * For the full copyright and license information, please view
  * the LICENSE.md file that was distributed with this source code.
@@ -61,7 +61,6 @@ final class FixtureFactory
      * @psalm-param class-string<T> $className
      * @psalm-template T
      *
-     * @param string                                                   $className
      * @param array<string, \Closure|FieldDefinition\Resolvable|mixed> $fieldDefinitions
      * @param \Closure                                                 $afterCreate
      *
@@ -144,8 +143,6 @@ final class FixtureFactory
     /**
      * Loads entity-definition providers from the specified directory.
      *
-     * @param string $directory
-     *
      * @throws Exception\InvalidDefinition
      * @throws Exception\InvalidDirectory
      */
@@ -202,11 +199,10 @@ final class FixtureFactory
      * @psalm-return T
      * @psalm-template T
      *
-     * @param string                                                   $className
      * @param array<string, \Closure|FieldDefinition\Resolvable|mixed> $fieldDefinitionOverrides
      *
-     * @throws Exception\InvalidFieldNames
      * @throws Exception\EntityDefinitionNotRegistered
+     * @throws Exception\InvalidFieldNames
      *
      * @return object
      */
@@ -285,8 +281,6 @@ final class FixtureFactory
      * @psalm-return list<T>
      * @psalm-template T
      *
-     * @param string                                                   $className
-     * @param Count                                                    $count
      * @param array<string, \Closure|FieldDefinition\Resolvable|mixed> $fieldDefinitionOverrides
      *
      * @throws Exception\EntityDefinitionNotRegistered
@@ -319,8 +313,6 @@ final class FixtureFactory
      *
      * - an optional reference is always resolved
      * - references resolve to an array containing at least one reference
-     *
-     * @return self
      */
     public function withOptional(): self
     {
@@ -338,8 +330,6 @@ final class FixtureFactory
      *
      * - an optional reference is never resolved
      * - references resolve to an array containing only the minimum number of references
-     *
-     * @return self
      */
     public function withoutOptional(): self
     {
@@ -352,8 +342,6 @@ final class FixtureFactory
 
     /**
      * Returns a fixture factory that persists entities after creation.
-     *
-     * @return self
      */
     public function persisting(): self
     {
@@ -385,10 +373,7 @@ final class FixtureFactory
     }
 
     /**
-     * @param object           $entity
-     * @param EntityDefinition $entityDefinition
-     * @param string           $fieldName
-     * @param mixed            $fieldValue
+     * @param mixed $fieldValue
      */
     private function setField(object $entity, EntityDefinition $entityDefinition, string $fieldName, $fieldValue): void
     {
@@ -428,8 +413,6 @@ final class FixtureFactory
 
     /**
      * @param mixed $value
-     *
-     * @return Common\Collections\ArrayCollection
      */
     private static function collectionFrom($value = []): Common\Collections\ArrayCollection
     {

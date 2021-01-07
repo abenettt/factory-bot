@@ -1,6 +1,3 @@
-MIN_COVERED_MSI:=99
-MIN_MSI:=99
-
 .PHONY: it
 it: coding-standards static-code-analysis tests ## Runs the coding-standards, static-code-analysis, and tests targets
 
@@ -19,7 +16,7 @@ coding-standards: vendor ## Normalizes composer.json with ergebnis/composer-norm
 
 .PHONY: dependency-analysis
 dependency-analysis: vendor ## Runs a dependency analysis with maglnet/composer-require-checker
-	tools/composer-require-checker check --config-file=$(shell pwd)/composer-require-checker.json
+	.phive/composer-require-checker check --config-file=$(shell pwd)/composer-require-checker.json
 
 .PHONY: doctrine
 doctrine: vendor ## Shows and validates Docrine mapping information
@@ -33,14 +30,14 @@ help: ## Displays this list of targets with descriptions
 .PHONY: mutation-tests
 mutation-tests: vendor ## Runs mutation tests with infection/infection
 	mkdir -p .build/infection
-	vendor/bin/infection --ignore-msi-with-no-mutations --min-covered-msi=${MIN_COVERED_MSI} --min-msi=${MIN_MSI}
+	vendor/bin/infection --configuration=infection.json
 
 .PHONY: static-code-analysis
 static-code-analysis: vendor ## Runs a static code analysis with phpstan/phpstan and vimeo/psalm
 	mkdir -p .build/phpstan
 	vendor/bin/phpstan analyse --configuration=phpstan.neon --memory-limit=-1
 	mkdir -p .build/psalm
-	vendor/bin/psalm --config=psalm.xml --diff --diff-methods --show-info=false --stats --threads=4
+	vendor/bin/psalm --config=psalm.xml --diff --show-info=false --stats --threads=4
 
 .PHONY: static-code-analysis-baseline
 static-code-analysis-baseline: vendor ## Generates a baseline for static code analysis with phpstan/phpstan and vimeo/psalm
@@ -64,4 +61,4 @@ tests-example: vendor ## Runs auto-review and unit tests for examples with phpun
 
 vendor: composer.json composer.lock
 	composer validate --strict
-	composer install --no-interaction --no-progress --no-suggest
+	composer install --no-interaction --no-progress
